@@ -44,13 +44,16 @@ game_font = pygame.font.Font(None,40) # 폰트 객체 생성 ( 폰트,크기)
 # 총 시간
 total_time = 10
 
+# 장애물 피한 수
+obstacle_cnt = 0
+
 # 시작 시간 정보
 start_ticks = pygame.time.get_ticks() # 시작 tick 을 받아옴
 
 # 이벤트 루프
 running = True  # 게임이 진행중인가?
 while running:
-    dt = clock.tick(60) # 초당 프레임 수 설정
+    dt = clock.tick(144) # 초당 프레임 수 설정
 
     for event in pygame.event.get(): # 어떤 이벤트인지
         if event.type == pygame.QUIT: # 창 닫기 버튼 클릭
@@ -68,7 +71,7 @@ while running:
     character_x_pos += to_x * dt
     character_y_pos += to_y * dt
 
-    enemy_y_pos += enemy_speed * dt
+    enemy_y_pos += (enemy_speed+(0.01*(obstacle_cnt+1))) * dt
 
     if character_x_pos>screen_width - character_width:
         character_x_pos = screen_width - character_width
@@ -78,6 +81,7 @@ while running:
     if enemy_y_pos>=screen_height:
         enemy_y_pos = 0
         enemy_x_pos = random.random()*screen_width
+        obstacle_cnt += 1
 
     # 충돌 처리를 위한 rect 정보 업데이트
     character_rect = character.get_rect()
@@ -102,9 +106,10 @@ while running:
     elapsed_time = (pygame.time.get_ticks() - start_ticks) / 1000
     # 경과 시간 1000으로 나눠서 초 단위로 표시
 
-    timer = game_font.render(str(int(elapsed_time)),True,(0,0,0))
+    # timer = game_font.render(str(int(elapsed_time)),True,(0,0,0))
+    cnt = game_font.render(str(int(obstacle_cnt)),True,(0,0,0))
 
-    screen.blit(timer,(10,10))
+    screen.blit(cnt,(10,10))
 
     # if total_time - elapsed_time <= 0:
     #     print("타임아웃")
