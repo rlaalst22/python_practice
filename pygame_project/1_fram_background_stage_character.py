@@ -184,7 +184,7 @@ while running:
                         'init_spd_y': ball_speed_y[ball_img_idx+1]
                     })
                 break
-        # for문에도 else를 사용할 수 있다. 
+        # for문에도 else를 사용할 수 있다.
         else:
             continue
         break
